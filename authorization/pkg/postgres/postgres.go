@@ -3,7 +3,7 @@ package postgres
 import (
 	"context"
 	"fmt"
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Config struct {
@@ -14,7 +14,7 @@ type Config struct {
 	Database string `yaml:"POSTGRES_DB" env:"POSTGRES_DB" env-default:"yandex"`
 }
 
-func New(ctx context.Context, config Config) (*pgx.Conn, error) {
+func New(ctx context.Context, config Config) (*pgxpool.Pool, error) {
 	connString := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable",
 		config.Username,
 		config.Password,
@@ -22,7 +22,7 @@ func New(ctx context.Context, config Config) (*pgx.Conn, error) {
 		config.Port,
 		config.Database)
 
-	conn, err := pgx.Connect(ctx, connString)
+	conn, err := pgxpool.New(ctx, connString)
 	if err != nil {
 		return nil, fmt.Errorf("unable to connect to database: %w", err)
 	}
