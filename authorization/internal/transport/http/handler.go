@@ -70,7 +70,6 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	logger.Info(r.Context(), "user logged in", zap.String("email", req.Email))
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Authorization", "Bearer "+token)
 	json.NewEncoder(w).Encode(map[string]string{"token": token})
 }
 
@@ -89,8 +88,4 @@ func (h *Handler) GoogleCallback(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]string{"token": token})
-}
-
-func (h *Handler) Profile(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Work"))
 }

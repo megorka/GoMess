@@ -32,7 +32,6 @@ func NewRouter(cfg Config, h *Handler) *Router {
 	r.HandleFunc("/api/v1/auth/login", h.Login).Methods("POST")
 	r.HandleFunc("/api/v1/auth/google", h.GoogleLogin).Methods("GET")
 	r.HandleFunc("/api/v1/auth/google/callback", h.GoogleCallback).Methods("GET")
-	r.HandleFunc("/", h.Profile).Methods("GET")
 
 	return &Router{
 		config:  cfg,

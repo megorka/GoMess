@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"os"
 	"strconv"
 	"time"
 
@@ -8,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var jwtKey = []byte("b25d03a4749df33c94f7e34ac81a0a27219e512882cf44bcdd74cd2584b387f57d58a377b03859e398a5c28cc8b4816806bdfdf4addcd463cbc87b3bb21a6ee0c2b61f4bdc986baad395c8fb772d561c8201ccc64e98aa77e92d03a341dc2ad987ce3d751bcd2c1d5dca7b168092f77c9912ef83b964bf2dee9a83a51e760df2")
+var jwtKey = []byte(os.Getenv("JWT_KEY"))
 
 func HashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -30,7 +31,7 @@ func CreateToken(userID int) (string, error) {
 		"exp":     expirationTime.Unix(),
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS384, claims)
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
 		return "", err

@@ -4,14 +4,14 @@ import (
 	"context"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/megorka/goproject/authorization/pkg/logger"
+	"github.com/megorka/goproject/user_service/pkg/logger"
 	"go.uber.org/zap"
 	"net/http"
 	"time"
 )
 
 type Config struct {
-	Host         string `yaml:"HTTP_HOST" env:"HTTP_HOST" env-default:"localhost"`
+	Host         string `yaml:"HTTP_HOST" yaml:"ROUTER" env:"HTTP_HOST" env-default:"localhost"`
 	Port         string `yaml:"HTTP_PORT" env:"HTTP_PORT" env-default:"8080"`
 	ReadTimeout  int    `yaml:"HTTP_READ_TIMEOUT" env:"HTTP_READ_TIMEOUT" env-default:"10"` // в секундах
 	WriteTimeout int    `yaml:"HTTP_WRITE_TIMEOUT" env:"HTTP_WRITE_TIMEOUT" env-default:"30"`
@@ -27,7 +27,9 @@ type Router struct {
 
 func NewRouter(cfg Config, h *Handler) *Router {
 	r := mux.NewRouter()
-
+	r.Use(Middleware)
+	r.Use(authMiddleware)
+	r.HandleFunc("/api/v1/users/friends/create", h.CreateFriend).Methods("POST")
 	return &Router{
 		config:  cfg,
 		Router:  r,

@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	Router   router.Config
-	Postgres postgres.Config
+	Router   router.Config   `yaml:"ROUTER"`
+	Postgres postgres.Config `yaml:"POSTGRES"`
 }
 
 func New() (*Config, error) {
