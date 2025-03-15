@@ -4,14 +4,14 @@ import (
 	"context"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/megorka/goproject/user_service/pkg/logger"
+	"github.com/megorka/goproject/post_service/pkg/logger"
 	"go.uber.org/zap"
 	"net/http"
 	"time"
 )
 
 type Config struct {
-	Host         string `yaml:"HTTP_HOST" yaml:"ROUTER" env:"HTTP_HOST" env-default:"localhost"`
+	Host         string `yaml:"HTTP_HOST" yaml:"ROUTER" env:"HTTP_HOST" env-default:"0.0.0.0"`
 	Port         string `yaml:"HTTP_PORT" env:"HTTP_PORT" env-default:"8080"`
 	ReadTimeout  int    `yaml:"HTTP_READ_TIMEOUT" env:"HTTP_READ_TIMEOUT" env-default:"10"` // в секундах
 	WriteTimeout int    `yaml:"HTTP_WRITE_TIMEOUT" env:"HTTP_WRITE_TIMEOUT" env-default:"30"`
@@ -29,9 +29,9 @@ func NewRouter(cfg Config, h *Handler) *Router {
 	r := mux.NewRouter()
 	r.Use(Middleware)
 	r.Use(authMiddleware)
-	r.HandleFunc("/api/v1/users/friends/create", h.CreateFriend).Methods("POST")
-	r.HandleFunc("/api/v1/users/friends/delete", h.DeleteFriend).Methods("DELETE")
-	r.HandleFunc("/api/v1/user/avatar", h.UploadAvatar).Methods("POST")
+	r.HandleFunc("/api/v1/post/create", h.CreatePost).Methods("POST")
+	r.HandleFunc("/api/v1/post/update", h.UpdatePost).Methods("PUT")
+	//r.HandleFunc("/api/v1/post/delete", h.DeletePost).Methods("DELETE")
 	return &Router{
 		config:  cfg,
 		Router:  r,

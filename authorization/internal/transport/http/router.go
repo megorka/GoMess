@@ -11,7 +11,7 @@ import (
 )
 
 type Config struct {
-	Host         string `yaml:"HTTP_HOST" env:"HTTP_HOST" env-default:"localhost"`
+	Host         string `yaml:"HTTP_HOST" env:"HTTP_HOST" env-default:"0.0.0.0"`
 	Port         string `yaml:"HTTP_PORT" env:"HTTP_PORT" env-default:"8080"`
 	ReadTimeout  int    `yaml:"HTTP_READ_TIMEOUT" env:"HTTP_READ_TIMEOUT" env-default:"10"` // в секундах
 	WriteTimeout int    `yaml:"HTTP_WRITE_TIMEOUT" env:"HTTP_WRITE_TIMEOUT" env-default:"30"`

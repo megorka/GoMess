@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
-	"github.com/megorka/goproject/user_service/pkg/logger"
+	"github.com/megorka/goproject/post_service/pkg/logger"
 	"go.uber.org/zap"
 	"net/http"
 	"os"

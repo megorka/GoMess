@@ -1,0 +1,5 @@
+.env
+.yaml
+.idea
+.dump
+.DS_Store

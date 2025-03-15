@@ -2,8 +2,8 @@ package config
 
 import (
 	"github.com/ilyakaznacheev/cleanenv"
-	"github.com/megorka/goproject/authorization/internal/transport/http"
-	"github.com/megorka/goproject/authorization/pkg/postgres"
+	"github.com/megorka/goproject/post_service/internal/transport/http"
+	"github.com/megorka/goproject/post_service/pkg/postgres"
 )
 
 type Config struct {
