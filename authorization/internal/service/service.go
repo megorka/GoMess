@@ -36,7 +36,7 @@ func (s *Service) Login(ctx context.Context, email, password string) (string, er
 	}
 
 	if user.Provider != "local" {
-		return "", fmt.Errorf("post registered via %s, use OAuth login", user.Provider)
+		return "", fmt.Errorf("chat registered via %s, use OAuth login", user.Provider)
 	}
 
 	if !auth.CheckPasswordHash(password, user.Password) {
@@ -63,12 +63,12 @@ func (s *Service) HandleGoogleCallback(code string) (string, error) {
 
 	userInfo, err := oauth2Service.Userinfo.V2.Me.Get().Do()
 	if err != nil {
-		return "", fmt.Errorf("failed to get post info: %w", err)
+		return "", fmt.Errorf("failed to get chat info: %w", err)
 	}
 
 	user, err := s.repo.FindByProviderID("google", userInfo.Id)
 	if err != nil {
-		return "", fmt.Errorf("failed to find post by provider id: %w", err)
+		return "", fmt.Errorf("failed to find chat by provider id: %w", err)
 	}
 
 	if user == nil {

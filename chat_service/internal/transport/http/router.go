@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/megorka/goproject/post_service/pkg/logger"
+	"github.com/megorka/goproject/chat_service/pkg/logger"
 	"go.uber.org/zap"
 	"net/http"
 	"time"
@@ -29,9 +29,10 @@ func NewRouter(cfg Config, h *Handler) *Router {
 	r := mux.NewRouter()
 	r.Use(Middleware)
 	r.Use(authMiddleware)
-	r.HandleFunc("/api/v1/post/create", h.CreatePost).Methods("POST")
-	r.HandleFunc("/api/v1/post/update", h.UpdatePost).Methods("PUT")
-	//r.HandleFunc("/api/v1/chat/delete", h.DeletePost).Methods("DELETE")
+	r.HandleFunc("/ws", h.WebSocketHandler).Methods("GET")
+	r.HandleFunc("/api/v1/chat/send", h.SendMessage).Methods("POST")
+	r.HandleFunc("/api/v1/chat/unread-messages", h.GetUnreadMessages).Methods("GET")
+	r.HandleFunc("/api/v1/chat/mark-as-read", h.MarkMessagesAsRead).Methods("POST")
 	return &Router{
 		config:  cfg,
 		Router:  r,

@@ -41,7 +41,7 @@ func (h *Handler) CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	if err := h.service.CreatePost(r.Context(), id, req.Title, req.Content); err != nil {
 		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-		http.Error(w, "Failed to create post", http.StatusInternalServerError)
+		http.Error(w, "Failed to create chat", http.StatusInternalServerError)
 		return
 	}
 
@@ -55,7 +55,7 @@ func (h *Handler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(userID)
 	if err != nil {
 		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-		http.Error(w, "Invalid post id", http.StatusBadRequest)
+		http.Error(w, "Invalid chat id", http.StatusBadRequest)
 		return
 	}
 
@@ -74,19 +74,19 @@ func (h *Handler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	usersID, err := h.service.GetPostById(r.Context(), req.ID)
 	if err != nil {
 		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-		http.Error(w, "Failed to update post", http.StatusInternalServerError)
+		http.Error(w, "Failed to update chat", http.StatusInternalServerError)
 		return
 	}
 
 	if usersID.UserID != id {
-		logger.GetLoggerFromCtx(r.Context()).Info(r.Context(), "You can't update this post")
-		http.Error(w, "You can't update this post", http.StatusBadRequest)
+		logger.GetLoggerFromCtx(r.Context()).Info(r.Context(), "You can't update this chat")
+		http.Error(w, "You can't update this chat", http.StatusBadRequest)
 		return
 	}
 
 	if err := h.service.UpdatePost(r.Context(), id, req.ID, req.Title, req.Content); err != nil {
 		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-		http.Error(w, "Failed to update post", http.StatusInternalServerError)
+		http.Error(w, "Failed to update chat", http.StatusInternalServerError)
 		return
 	}
 
@@ -94,31 +94,43 @@ func (h *Handler) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"message": "Post successfuly updated"})
 }
 
-//
-//func (h *Handler) DeletePost(w http.ResponseWriter, r *http.Request) {
-//	userID := r.Context().Value("user_id").(string)
-//	id, err := strconv.Atoi(userID)
-//	var req struct {
-//		ID int `json:"id" db:"id"`
-//	}
-//	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-//		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-//		http.Error(w, "Invalid request body", http.StatusBadRequest)
-//		return
-//	}
-//
-//	if err != nil {
-//		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-//		http.Error(w, "Invalid post id", http.StatusBadRequest)
-//		return
-//	}
-//
-//	if err := h.service.DeletePost(r.Context(), req.ID); err != nil {
-//		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-//		http.Error(w, "Failed to delete post", http.StatusInternalServerError)
-//		return
-//	}
-//
-//	w.WriteHeader(http.StatusOK)
-//	json.NewEncoder(w).Encode(map[string]string{"message": "Post successfuly deleted"})
-//}
+func (h *Handler) DeletePost(w http.ResponseWriter, r *http.Request) {
+	userID := r.Context().Value("user_id").(string)
+	id, err := strconv.Atoi(userID)
+	var req struct {
+		ID int `json:"id" db:"id"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	if err != nil {
+		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
+		http.Error(w, "Invalid chat id", http.StatusBadRequest)
+		return
+	}
+
+	usersID, err := h.service.GetPostById(r.Context(), req.ID)
+	if err != nil {
+		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
+		http.Error(w, "Failed to update chat", http.StatusInternalServerError)
+		return
+	}
+
+	if usersID.UserID != id {
+		logger.GetLoggerFromCtx(r.Context()).Info(r.Context(), "You can't update this chat")
+		http.Error(w, "You can't update this chat", http.StatusBadRequest)
+		return
+	}
+
+	if err := h.service.DeletePost(r.Context(), req.ID); err != nil {
+		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
+		http.Error(w, "Failed to delete chat", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"message": "Post successfuly deleted"})
+}

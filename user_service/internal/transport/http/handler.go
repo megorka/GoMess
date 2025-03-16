@@ -31,7 +31,7 @@ func (h *Handler) CreateFriend(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(userID)
 	if err != nil {
 		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-		http.Error(w, "Invalid post id", http.StatusBadRequest)
+		http.Error(w, "Invalid chat id", http.StatusBadRequest)
 		return
 	}
 
@@ -65,7 +65,7 @@ func (h *Handler) DeleteFriend(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(userID)
 	if err != nil {
 		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-		http.Error(w, "Invalid post id", http.StatusBadRequest)
+		http.Error(w, "Invalid chat id", http.StatusBadRequest)
 		return
 	}
 
@@ -97,7 +97,7 @@ func (h *Handler) GetFriends(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(userID)
 	if err != nil {
 		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-		http.Error(w, "Invalid post id", http.StatusBadRequest)
+		http.Error(w, "Invalid chat id", http.StatusBadRequest)
 		return
 	}
 
@@ -118,7 +118,7 @@ func (h *Handler) UploadAvatar(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(userID)
 	if err != nil {
 		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-		http.Error(w, "Invalid post id", http.StatusBadRequest)
+		http.Error(w, "Invalid chat id", http.StatusBadRequest)
 		return
 	}
 
@@ -164,7 +164,7 @@ func (h *Handler) GetPostsOnProfile(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(userID)
 	if err != nil {
 		logger.GetLoggerFromCtx(r.Context()).Error(r.Context(), err.Error())
-		http.Error(w, "Invalid post id", http.StatusBadRequest)
+		http.Error(w, "Invalid chat id", http.StatusBadRequest)
 		return
 	}
 

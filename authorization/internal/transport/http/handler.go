@@ -46,7 +46,7 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logger := logger.GetLoggerFromCtx(r.Context())
-	logger.Info(r.Context(), "post created", zap.String("email", req.Email))
+	logger.Info(r.Context(), "user created", zap.String("email", req.Email))
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{"message": "User successfuly created"})
@@ -68,7 +68,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logger := logger.GetLoggerFromCtx(r.Context())
-	logger.Info(r.Context(), "post logged in", zap.String("email", req.Email))
+	logger.Info(r.Context(), "user logged in", zap.String("email", req.Email))
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]string{"token": token})

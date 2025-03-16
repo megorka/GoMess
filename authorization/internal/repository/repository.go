@@ -31,7 +31,7 @@ func (r *Repository) GetUserByEmail(ctx context.Context, email string) (*models.
 	query := `SELECT id, name, lastname, email, password, provider FROM users WHERE email = $1`
 	err := r.db.QueryRow(ctx, query, email).Scan(&user.ID, &user.Name, &user.LastName, &user.Email, &user.Password, &user.Provider)
 	if errors.Is(err, pgx.ErrNoRows) {
-		return nil, errors.New("post not found")
+		return nil, errors.New("chat not found")
 	} else if err != nil {
 		return nil, fmt.Errorf("GetUserByEmail: %w", err)
 	}
